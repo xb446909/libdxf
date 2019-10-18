@@ -3,9 +3,11 @@
 #include "ShapeManager.h"
 #include "ShapeLine.h"
 #include "ShapeArc.h"
+#include "CharConverter.h"
 
 
 CreationClass::CreationClass()
+	: IsBlock(false)
 {
 }
 
@@ -17,12 +19,32 @@ void CreationClass::addLayer(const DL_LayerData& data)
 {
 }
 
+void CreationClass::addBlock(const DL_BlockData& data)
+{
+	IsBlock = true;
+}
+
+void CreationClass::endBlock()
+{
+	IsBlock = false;
+}
+
+void CreationClass::endEntity()
+{
+}
+
 void CreationClass::addPoint(const DL_PointData& data)
 {
 }
 
 void CreationClass::addLine(const DL_LineData& data)
 {
+	if (IsBlock)
+	{
+		return;
+	}
+
+	CharConverter converter;
 	ShapeLine* pLine = new ShapeLine(
 		data.x1,
 		data.y1,
@@ -30,11 +52,18 @@ void CreationClass::addLine(const DL_LineData& data)
 		data.x2,
 		data.y2,
 		data.z2);
+	pLine->SetLayer(converter.UTF8ToANSI(getAttributes().getLayer().c_str()));
 	ShapeManager::Instance()->AddShape(pLine);
 }
 
 void CreationClass::addArc(const DL_ArcData& data)
 {
+	if (IsBlock)
+	{
+		return;
+	}
+
+	CharConverter converter;
 	ShapeArc* pArc = new ShapeArc(
 		data.cx,
 		data.cy,
@@ -43,6 +72,7 @@ void CreationClass::addArc(const DL_ArcData& data)
 		data.angle1,
 		data.angle2
 	);
+	pArc->SetLayer(converter.UTF8ToANSI(getAttributes().getLayer().c_str()));
 	ShapeManager::Instance()->AddShape(pArc);
 }
 
