@@ -5,6 +5,7 @@
 #include "ShapeArc.h"
 #include "CharConverter.h"
 #include "ShapePoint.h"
+#include "ShapeCircle.h"
 
 
 CreationClass::CreationClass()
@@ -45,7 +46,8 @@ void CreationClass::addPoint(const DL_PointData& data)
 	ShapePoint* pPoint = new ShapePoint(
 		data.x,
 		data.y,
-		data.z);
+		data.z
+	);
 	pPoint->SetLayer(converter.UTF8ToANSI(getAttributes().getLayer().c_str()));
 	ShapeManager::Instance()->AddShape(pPoint);
 }
@@ -64,7 +66,8 @@ void CreationClass::addLine(const DL_LineData& data)
 		data.z1,
 		data.x2,
 		data.y2,
-		data.z2);
+		data.z2
+	);
 	pLine->SetLayer(converter.UTF8ToANSI(getAttributes().getLayer().c_str()));
 	ShapeManager::Instance()->AddShape(pLine);
 }
@@ -91,6 +94,20 @@ void CreationClass::addArc(const DL_ArcData& data)
 
 void CreationClass::addCircle(const DL_CircleData& data)
 {
+	if (IsBlock)
+	{
+		return;
+	}
+
+	CharConverter converter;
+	ShapeCircle* pCircle = new ShapeCircle(
+		data.cx,
+		data.cy,
+		data.cz,
+		data.radius
+	);
+	pCircle->SetLayer(converter.UTF8ToANSI(getAttributes().getLayer().c_str()));
+	ShapeManager::Instance()->AddShape(pCircle);
 }
 
 void CreationClass::addPolyline(const DL_PolylineData& data)

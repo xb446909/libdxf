@@ -6,5 +6,7 @@ ReadDxf
 Release
 GetShapeCount
 GetShapeType
+GetPoint
 GetLine
 GetArc
+GetCircle
