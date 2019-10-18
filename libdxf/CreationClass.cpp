@@ -2,6 +2,7 @@
 #include "CreationClass.h"
 #include "ShapeManager.h"
 #include "ShapeLine.h"
+#include "ShapeArc.h"
 
 
 CreationClass::CreationClass()
@@ -34,6 +35,15 @@ void CreationClass::addLine(const DL_LineData& data)
 
 void CreationClass::addArc(const DL_ArcData& data)
 {
+	ShapeArc* pArc = new ShapeArc(
+		data.cx,
+		data.cy,
+		data.cz,
+		data.radius,
+		data.angle1,
+		data.angle2
+	);
+	ShapeManager::Instance()->AddShape(pArc);
 }
 
 void CreationClass::addCircle(const DL_CircleData& data)
