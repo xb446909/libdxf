@@ -4,6 +4,7 @@
 #include "ShapeLine.h"
 #include "ShapeArc.h"
 #include "CharConverter.h"
+#include "ShapePoint.h"
 
 
 CreationClass::CreationClass()
@@ -35,6 +36,18 @@ void CreationClass::endEntity()
 
 void CreationClass::addPoint(const DL_PointData& data)
 {
+	if (IsBlock)
+	{
+		return;
+	}
+
+	CharConverter converter;
+	ShapePoint* pPoint = new ShapePoint(
+		data.x,
+		data.y,
+		data.z);
+	pPoint->SetLayer(converter.UTF8ToANSI(getAttributes().getLayer().c_str()));
+	ShapeManager::Instance()->AddShape(pPoint);
 }
 
 void CreationClass::addLine(const DL_LineData& data)
