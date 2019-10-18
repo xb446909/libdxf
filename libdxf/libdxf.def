@@ -3,3 +3,7 @@ LIBRARY
 EXPORTS
 
 ReadDxf
+Release
+GetShapeCount
+GetShapeType
+GetLine
