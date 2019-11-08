@@ -17,8 +17,8 @@ public:
 	Shapes* Shape(int idx);
 	int Count();
 
-private:
 	static ShapeManager* m_pInst;
+private:
 	vector<Shapes*> m_vecShapes;
 };
 
